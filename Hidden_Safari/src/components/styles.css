@@ -1,0 +1,114 @@
+.mountain-background {
+    position: relative;
+    width: 100%;
+    height: 400px;
+    background-image: url("/detailpage/mountain.png");
+    background-size: cover;
+    background-position: center;
+  }
+
+  /* style.css */
+
+.day-image-style {
+  width: 702px;
+  height: 468px;
+  max-width: 100%;
+  height: auto;
+}
+
+/* You can keep or remove the utility classes from here if you prefer */
+.mt-4 {
+  margin-top: 1rem; /* Equivalent to Tailwind's mt-4 */
+}
+
+.rounded-lg {
+  border-radius: 0.5rem;
+}
+
+.shadow-lg {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* Equivalent to Tailwind's shadow-lg */
+}
+
+.object-cover {
+  object-fit: cover; 
+}
+
+/* Navbar */
+
+.navbar-link {
+  color: white; /* Default text color */
+  text-decoration: none; /* Remove underlines if you don't want them */
+}
+
+.navbar-link:hover {
+  color: green-600; /* Hover text color */
+}
+
+.navbar-link-home {
+  color: white !important; /* Specific style for the Home link */
+}
+
+.logout-button {
+  color: black;
+  background-color: blue-500;
+  padding: 8px 12px; /* Example padding */
+  border: none;
+  border-radius: 4px; /* Example rounded corners */
+  cursor: pointer;
+}
+
+
+
+.scroll-wrapper {
+  width: 100%;
+  overflow: hidden;
+}
+
+.scroll-track {
+  display: flex;
+  width: max-content;
+  animation: scroll 40s linear infinite;
+}
+
+.scroll-item {
+  flex-shrink: 0;
+  width: 18rem; /* same as w-72 */
+  margin-right: 1rem;
+}
+
+/* Animation */
+@keyframes scroll {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Optional: Pause on hover */
+.scroll-wrapper:hover .scroll-track {
+  animation-play-state: paused;
+}
+
+/* Fade effect on edges
+.fade-left,
+.fade-right {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 60px;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.fade-left {
+  left: 0;
+  background: linear-gradient(to right, rgb(37, 235, 7), transparent);
+}
+
+.fade-right {
+  right: 0;
+  background: linear-gradient(to left, rgb(77, 218, 30), transparent);
+}
+ */
