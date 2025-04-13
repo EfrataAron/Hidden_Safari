@@ -42,7 +42,7 @@ const Contact = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {offices.map((office, index) => (
               <div key={index} className="bg-white flex flex-col">
-                <div className="bg-orange-100 rounded-lg shadow-md p-6 border border-gray-200">
+                <div className="bg-green-200 rounded-lg shadow-md p-6 border border-gray-200">
                   <h2 className="text-lg font-semibold">{office.name}</h2>
                   <p className="text-gray-600 mt-2">{office.address}</p>
                   <p className="text-gray-600">

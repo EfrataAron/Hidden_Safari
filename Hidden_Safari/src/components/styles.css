@@ -1,3 +1,7 @@
+
+.container{
+
+}
 .mountain-background {
     position: relative;
     width: 100%;
@@ -16,7 +20,7 @@
   height: auto;
 }
 
-/* You can keep or remove the utility classes from here if you prefer */
+
 .mt-4 {
   margin-top: 1rem; /* Equivalent to Tailwind's mt-4 */
 }
@@ -129,5 +133,9 @@
 
 .fade-bottom {
   bottom: 0;
-  background: linear-gradient(to top, rgba(147, 237, 74, 0.8), transparent); /* Or any color */
+  background: linear-gradient(to top, rgba(213, 238, 193, 0.8), transparent); /* Or any color */
+}
+
+section{
+  background-color: rgb(237, 244, 227);
 }

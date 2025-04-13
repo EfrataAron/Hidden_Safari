@@ -48,8 +48,9 @@ const SpecialEvents = () => {
 
           <div className="scroll-wrapper">
             <div className="scroll-track">
-              {[...events, ...events].map((event, index) => (
-                <div key={index} className="scroll-item" onClick={() => handleCardClick(event._id)}>
+                {[...events, ...events].map((event, index) => (
+
+                <div key={index} className="scroll-item  flex items-center justify-center " onClick={() => handleCardClick(event._id)}>
                   <Card
                     image={event.bannerImages1}
                     title={event.heading}

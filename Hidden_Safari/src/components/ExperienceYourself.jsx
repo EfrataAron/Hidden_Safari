@@ -22,7 +22,7 @@ const ExperienceYourself = () => {
   ]);
 
   return (
-    <section className="bg-red-100 container mx-auto p-4">
+    <section className="container mx-auto p-4">
       {/* Heading and Description */}
       <h2 className="text-3xl font-bold text-left mb-4">Experience Yourself</h2>
       <p className="text-lg text-gray-600 text-left mb-8">

@@ -111,7 +111,7 @@ const EpicAdventure = () => {
         {/* Scrollable content container */}
         <div className="scroll-track">
           {adventures.map((adventure, index) => (
-            <div key={index} className="scroll-item">
+            <div key={index} className="scroll-item   flex items-center justify-center ">
               <Card
                 image={adventure.bannerImages1}
                 title={adventure.heading}

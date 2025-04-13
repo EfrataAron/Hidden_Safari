@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { ENDPOINTS } from "../assets/EndPoints";
-import Card from "./Card"; // Assuming you have a Card component for individual trek display
+import Card from "./Card"; 
 
 const SnowTreks = () => {
   const [snowTreks, setSnowTreks] = useState([]);
@@ -46,6 +46,7 @@ const SnowTreks = () => {
 
       {/* Scroll Wrapper with fade effect on edges */}
       <div className="scroll-wrapper relative overflow-hidden">
+        
         {/* Fade effect on left */}
         <div className="fade-left"></div>
 
@@ -54,6 +55,7 @@ const SnowTreks = () => {
           
           {duplicatedSnowTreks.map((trek) => (
             <div key={trek.id} className="scroll-item">
+              
               <Card
                 image={trek.bannerImages1}
                 title={trek.heading}
