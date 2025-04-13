@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
 import Card from "./Card";
-import "./styles.css"; // Make sure this file exists
+import "./styles.css"; // Ensure this file exists
 
 const SpecialEvents = () => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
+
+
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -22,10 +27,17 @@ const SpecialEvents = () => {
     fetchEvents();
   }, []);
 
+  // Function to handle card click and navigate to event details page
+  const handleCardClick = (eventId) => {
+    navigate('/events');
+  };
+
   return (
     <section className="relative container mx-auto p-4">
       <h2 className="text-3xl font-bold text-left mb-8">Special Events</h2>
-
+      <p className="text-lg text-gray-700 mb-6">
+        Experience the magic of winter landscapes with our guided snow treks.
+      </p>
       {loading ? (
         <div className="text-center text-xl">Loading events...</div>
       ) : (
@@ -37,11 +49,11 @@ const SpecialEvents = () => {
           <div className="scroll-wrapper">
             <div className="scroll-track">
               {[...events, ...events].map((event, index) => (
-                <div key={index} className="scroll-item">
+                <div key={index} className="scroll-item" onClick={() => handleCardClick(event._id)}>
                   <Card
                     image={event.bannerImages1}
                     title={event.heading}
-                    description={event.about}
+                    description={event.about.substring(0, 100) + "..."} 
                     imageText={event.calendarDates}
                     icons={[]}
                   />
@@ -49,6 +61,8 @@ const SpecialEvents = () => {
               ))}
             </div>
           </div>
+          <div className="fade-top"></div>
+          <div className="fade-bottom"></div>
         </div>
       )}
     </section>
@@ -56,4 +70,3 @@ const SpecialEvents = () => {
 };
 
 export default SpecialEvents;
-

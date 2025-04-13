@@ -1,42 +1,19 @@
 import React, { useState, useEffect } from "react";
-import Card from "./Card";
+import axios from "axios";
+import { ENDPOINTS } from "../assets/EndPoints"; // Ensure correct path for ENDPOINTS
+import Card from "./Card"; // Assuming you have a Card component
 
 const SummerEvents = () => {
   const [events, setEvents] = useState([]);
-  const [loading, setLoading] = useState(true); // Add loading state
-  const [error, setError] = useState(null); // Add error state
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Simulate fetching data (replace with your actual data fetching logic)
     const fetchEvents = async () => {
       try {
-        // Simulate API call delay
-        await new Promise((resolve) => setTimeout(resolve, 1500));
-
-        // Replace this with your actual data fetching logic (e.g., from an API)
-        const fetchedEvents = [
-          {
-            image: "/landingPage/kruger.png",
-            imageText: "Kruger Park",
-            title: "Kruger Park",
-          },
-          {
-            image: "/landingPage/west.png",
-            imageText: "Western Cape",
-            title: "Western Cape",
-          },
-          {
-            image: "/landingPage/addo.png",
-            imageText: "Addo Park",
-            title: "Addo Park",
-          },
-          {
-            image: "/landingPage/masai.png",
-            imageText: "Masai Mara",
-            title: "Masai Mara",
-          },
-        ];
-
+        // Fetching data from the SUMMER endpoint
+        const response = await axios.get(ENDPOINTS.SUMMER);
+        const fetchedEvents = response.data;
         setEvents(fetchedEvents);
       } catch (err) {
         setError(err);
@@ -58,26 +35,45 @@ const SummerEvents = () => {
   }
 
   if (error) {
-     return (
+    return (
       <section className="container mx-auto p-4">
         <h2 className="text-3xl font-bold text-left mb-8">Summer Events</h2>
-        <p>Error fetching events.</p>
+        <p>Error fetching events: {error.message}</p>
       </section>
     );
   }
 
+  // Duplicating the events to make the scroll infinite
+  const duplicatedEvents = [...events, ...events]; // Duplicates the events array
+
   return (
     <section className="container mx-auto p-4">
       <h2 className="text-3xl font-bold text-left mb-8">Summer Events</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {events.map((event, index) => (
-          <Card
-            key={index}
-            image={event.image}
-            imageText={event.imageText}
-            title={event.title}
-          />
-        ))}
+      <p className="text-lg text-gray-700 mb-6">
+        Experience the magic of winter landscapes with our guided snow treks.
+      </p>
+      {/* Scroll Wrapper with fade effect on edges */}
+      <div className="scroll-wrapper relative overflow-hidden">
+        {/* Fade effect on left */}
+        <div className="fade-left"></div>
+
+        {/* Scrollable content container */}
+        <div className="scroll-track">
+          {duplicatedEvents.map((event, index) => (
+            <div key={index} className="scroll-item">
+              <Card
+                image={event.bannerImages1}  // Using bannerImages1 as an example
+                imageText={event.heading}
+                title={event.heading}
+              />
+            </div>
+          ))}
+        </div>
+
+        {/* Fade effect on right */}
+        <div className="fade-right"></div>
+        <div className="fade-top"></div>
+        <div className="fade-bottom"></div>
       </div>
     </section>
   );

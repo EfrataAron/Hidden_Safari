@@ -51,7 +51,7 @@ const Events = () => {
         </div>
       </div>
 
-      <div className="container mx-auto p-8 flex-1">
+      <div className="container mx-auto p-16 flex-1">
         {loading ? (
           <div className="text-center text-xl">Loading events...</div>
         ) : events.length === 0 ? (
@@ -71,7 +71,7 @@ const Events = () => {
                 <div className="p-6">
                   <h2 className="text-xl font-semibold">{event.heading}</h2>
                   <p className="text-gray-600 mt-2">{event.calendarDates}</p>
-                  <p className="text-gray-600 line-clamp-3">{event.about}</p>
+                  <p className="text-gray-600 mt-4">{event.about}</p> {/* Removed line-clamp-3 */}
                 </div>
               </div>
             ))}

@@ -13,8 +13,8 @@ export const ENDPOINTS = {
   //
   SNOWTREK:"http://54.210.95.246:3005/api/v1/events/snow-treks-events",
   SUMMER:"http://54.210.95.246:3005/api/v1/events/summer-events",
-  MONSOON:"http://54.210.95.246:3005/api/v1/events/monsoon-events",
-  ADVENTURE:"http://54.210.95.246:3005/api/v1/events/epic-adventure-events",
+  MONSOON:"http://54.210.95.246:3005/api/v1/events/monsoon-events", 
+  ADVENTURES:"http://54.210.95.246:3005/api/v1/events/epic-adventure-events",
   SPECIALEVENTS:"http://54.210.95.246:3005/api/v1/events/special-events",
   HIGHLIGHTEDEVENTS:"http://54.210.95.246:3005/api/v1/events/highlighted-events",
   ALLEVENTS:"http://54.210.95.246:3005/api/v1/events/all-events",

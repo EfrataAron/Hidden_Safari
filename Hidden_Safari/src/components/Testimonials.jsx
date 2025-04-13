@@ -1,52 +1,62 @@
-// components/Testimonials.js
-import React, { useState } from "react";
-
-const testimonials = [
-  {
-    name: "Milton Austin",
-    role: "Sales Manager, ABC",
-    review:
-      "This trekking organization is excellent. Their costs are minimal due to their NGO’s non-profit efforts. You can have the experience of trekking at the lowest cost with basic amenities and the best available trek leaders. The best part is the food they provide during the trek. Their cooks are the best I have experienced so far with different organizations. The food they serve is healthy and balanced.",
-    rating: "★★★★★",
-    image: "./william.png", // Replace with actual image URL
-  },
-  {
-    name: "Annie",
-    role: "Head of Sales, ABC",
-    review:
-      "The trekking experience was amazing! The guides were knowledgeable, and the scenery was breathtaking. I highly recommend this organization for anyone looking for an affordable and memorable adventure.",
-    rating: "★★★★★",
-    image: "./emily.png", // Replace with actual image URL
-  },
-  {
-    name: "Sandra",
-    role: "Head of Sales, ABC",
-    review:
-      "I had an incredible time trekking with this organization. The food was delicious, the guides were friendly, and the overall experience was top-notch. I will definitely be returning for another adventure!",
-    rating: "★★★★★",
-    image: "./hana.png", // Replace with actual image URL
-  },
-];
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { ENDPOINTS } from "../assets/EndPoints";
 
 const Testimonials = () => {
+  const [testimonials, setTestimonials] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentChunkIndex, setCurrentChunkIndex] = useState(0); // Track the chunk of testimonials
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchTestimonials = async () => {
+      try {
+        const response = await axios.get(ENDPOINTS.TESTIMONIALS);
+        setTestimonials(response.data);
+      } catch (err) {
+        console.error(err);
+        setError("Failed to load testimonials.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTestimonials();
+  }, []);
 
   const handleNext = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % testimonials.length);
+    const nextChunk = currentChunkIndex + 1;
+    if (nextChunk * 3 < testimonials.length) {
+      setCurrentChunkIndex(nextChunk);
+    }
   };
 
   const handlePrevious = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? testimonials.length - 1 : prevIndex - 1
-    );
+    const prevChunk = currentChunkIndex - 1;
+    if (prevChunk >= 0) {
+      setCurrentChunkIndex(prevChunk);
+    }
   };
 
-  const currentTestimonial = testimonials[currentIndex];
+  if (loading) return <p className="text-center py-8">Loading testimonials...</p>;
+  if (error || testimonials.length === 0)
+    return <p className="text-center text-red-500 py-8">{error || "No testimonials found."}</p>;
+
+  // Slice the testimonials to show only the current chunk
+  const currentTestimonials = testimonials.slice(currentChunkIndex * 3, (currentChunkIndex + 1) * 3);
+
+  // Helper to display stars based on ratings
+  const renderStars = (rating) => {
+    const fullStars = Math.floor(rating);
+    const halfStar = rating % 1 >= 0.5;
+    const stars = "★".repeat(fullStars) + (halfStar ? "½" : "");
+    return stars;
+  };
 
   return (
     <section className="bg-gray-100 py-12">
       <div className="container mx-auto px-4">
-        {/* Heading */}
         <h2 className="text-3xl font-bold text-center mb-4">
           Why People 💬 Invincible
         </h2>
@@ -54,43 +64,39 @@ const Testimonials = () => {
           Experience the best with us
         </p>
 
-        {/* Testimonial Layout */}
-        <div className=" flex flex-col md:flex-row items-start max-w-6xl mx-auto">
-          {/* Reviewer List (Left Side) */}
-          <div className=" w-full md:w-1/3 space-y-4 pr-8">
-            {testimonials.map((testimonial, index) => (
+        <div className="flex flex-col md:flex-row items-start max-w-6xl mx-auto">
+          {/* Reviewer List */}
+          <div className="w-full md:w-1/3 space-y-4 pr-8">
+            {currentTestimonials.map((testimonial, index) => (
               <div
                 key={index}
-                className={`bg-orange-100 flex items-center p-4 rounded-lg cursor-pointer ${
-                  index === currentIndex ? "bg-red-400 shadow-md" : "bg-gray-50"
+                className={`flex items-center p-4 rounded-lg cursor-pointer transition ${
+                  index === currentIndex
+                    ? "bg-red-400 text-white shadow-lg"
+                    : "bg-orange-100"
                 }`}
                 onClick={() => setCurrentIndex(index)}
               >
                 <img
-                  src={testimonial.image}
+                  src={testimonial.profileImage}
                   alt={testimonial.name}
-                  className="w-12 h-12 rounded-full"
+                  className="w-12 h-12 rounded-full object-cover"
                 />
                 <div className="ml-4">
                   <h3 className="text-lg font-bold">{testimonial.name}</h3>
-                  <p className="text-sm text-gray-600">{testimonial.role}</p>
+                  <p className="text-sm">{testimonial.role}</p>
                 </div>
               </div>
             ))}
           </div>
 
-          {/* Detailed Review (Right Side) */}
+          {/* Review Section */}
           <div className="w-full md:w-2/3 bg-white p-8 rounded-lg shadow-md">
-            {/* Rating */}
             <div className="text-yellow-500 text-2xl mb-4">
-              {currentTestimonial.rating}
+              {renderStars(currentTestimonials[currentIndex].ratings)} ({currentTestimonials[currentIndex].ratings})
             </div>
-
-            {/* Review Text */}
-            <p className=" text-gray-700 mb-6">{currentTestimonial.review}</p>
-
-            {/* Navigation Arrows */}
-            <div className="flex justify-between items-center">
+            <p className="text-gray-700 mb-6">{currentTestimonials[currentIndex].review}</p>
+            <div className="flex justify-between">
               <button
                 onClick={handlePrevious}
                 className="text-gray-600 hover:text-gray-900"

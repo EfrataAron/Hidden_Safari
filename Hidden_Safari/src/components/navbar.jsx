@@ -1,37 +1,17 @@
-// import React from "react";
-// import clsx from "clsx";
-
-// const Navbar = ({ className }) => { // Accept className prop
-//   return (
-//     <nav className={clsx(
-//       "p-4 flex justify-between items-center",
-//       className // Apply the className prop
-//     )}>
-//       <div className="text-xl font-bold text-green-800">Hidden Safari</div>
-
-//       <div className="hidden md:flex space-x-6 text-white">
-//         <a href="/" className="hover:text-green-600">Home</a>
-//         <a href="#activities" className="hover:text-green-600">Events</a>
-//         <a href="#trails" className="hover:text-green-600">Team</a>
-//         <a href="#trails" className="hover:text-green-600">About</a>
-//         <a href="#testimonials" className="hover:text-green-600">Contact</a>
-//       </div>
-
-//       <button className="md:hidden focus:outline-none">
-//         <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-//           <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16m-7 6h7" />
-//         </svg>
-//       </button>
-//     </nav>
-//   );
-// };
-
-// export default Navbar;
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import clsx from "clsx";
-import { useNavigate } from "react-router-dom";
-import "./styles.css"; 
+import {
+  FaHome,
+  FaCalendarAlt,
+  FaUsers,
+  FaInfoCircle,
+  FaEnvelope,
+  FaUser,
+  FaSignOutAlt,
+  FaSignInAlt
+} from "react-icons/fa";
+import "./styles.css"; // Your custom CSS
 
 const Navbar = ({ className }) => {
   const navigate = useNavigate();
@@ -39,7 +19,7 @@ const Navbar = ({ className }) => {
 
   const handleLogout = () => {
     localStorage.removeItem("authToken");
-    navigate("/login"); // Redirect to login after logout
+    navigate("/login");
   };
 
   return (
@@ -51,73 +31,56 @@ const Navbar = ({ className }) => {
     >
       <div className="text-xl font-bold text-green-800">Hidden Safari</div>
 
-      <div className="hidden md:flex space-x-6"> {/* Removed text-white here */}
-        <Link to="/home" className="navbar-link home-link"> 
-          Home
+      <div className="hidden md:flex space-x-6 items-center text-white">
+        <Link to="/home" className="navbar-link flex items-center gap-2">
+          <FaHome /> Home
         </Link>
-        <Link to="/Events" className="navbar-link">
-          Events
+        <Link to="/events" className="navbar-link flex items-center gap-2">
+          <FaCalendarAlt /> Events
         </Link>
-        <Link to="/team" className="navbar-link">
-          Team
+        <Link to="/team" className="navbar-link flex items-center gap-2">
+          <FaUsers /> Team
         </Link>
-        <Link to="/about" className="navbar-link">
-          About
+        <Link to="/about" className="navbar-link flex items-center gap-2">
+          <FaInfoCircle /> About
         </Link>
-        <Link to="/contact" className="navbar-link">
-          Contact
+        <Link to="/contact" className="navbar-link flex items-center gap-2">
+          <FaEnvelope /> Contact
         </Link>
-
-       
 
         {isAuthenticated ? (
           <>
-          <Link to="/profile" className="navbar-link">
-          Profile
+            <Link to="/profile" className="navbar-link flex items-center gap-2">
+              <FaUser /> Profile
             </Link>
-            
-            <button className="logout-button" onClick={handleLogout}>
-              Logout
+            <button
+              className="logout-button flex items-center gap-2 text-white hover:text-red-300"
+              onClick={handleLogout}
+            >
+              <FaSignOutAlt /> Logout
             </button>
-           
           </>
         ) : (
-          <Link to="/login" className="navbar-link">Login</Link>
+          <Link to="/login" className="navbar-link flex items-center gap-2">
+            <FaSignInAlt /> Login
+          </Link>
         )}
       </div>
+
+      {/* Mobile Hamburger Icon */}
+      <button className="md:hidden focus:outline-none text-white">
+        <svg
+          className="w-6 h-6"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          viewBox="0 0 24 24"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16m-7 6h7" />
+        </svg>
+      </button>
     </nav>
   );
 };
 
 export default Navbar;
-
-// import React from "react";
-// import { Link } from "react-router-dom"; // Import Link from react-router-dom
-// import clsx from "clsx";
-
-// const Navbar = ({ className }) => { // Accept className prop
-//   return (
-//     <nav className={clsx(
-//       "p-4 flex justify-between items-center",
-//       className // Apply the className prop
-//     )}>
-//       <div className="text-xl font-bold text-green-800">Hidden Safari</div>
-
-//         <div className="hidden md:flex space-x-6 text-white">
-//       <Link to="/" className="hover:text-green-600">Home</Link>
-//       <Link to="/Events" className="hover:text-green-600">Events</Link>
-//       <Link to="/team" className="hover:text-green-600">Team</Link> {/* Updated */}
-//       <Link to="/about" className="hover:text-green-600">About</Link> {/* Updated */}
-//       <Link to="/contact" className="hover:text-green-600">Contact</Link> {/* Updated */}
-//       </div>
-
-//       <button className="md:hidden focus:outline-none">
-//         <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-//           <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16m-7 6h7" />
-//         </svg>
-//       </button>
-//     </nav>
-//   );
-// };
-
-// export default Navbar;

@@ -46,7 +46,7 @@ import React from "react";
 
 const Card = ({ image, title, description, imageText, icons }) => {
   return (
-    <div className="max-w-sm rounded-xl overflow-hidden bg-white shadow-md hover:shadow-2xl transition duration-300 transform hover:-translate-y-1">
+    <div className=" max-w-sm rounded-xl overflow-hidden bg-white shadow-md hover:shadow-2xl transition duration-300 transform hover:-translate-y-1">
       {/* Image with Overlay Text */}
       <div className="relative">
         {/* Image */}

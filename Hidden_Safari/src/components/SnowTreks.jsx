@@ -1,35 +1,41 @@
 import React, { useState, useEffect } from "react";
-import Card from "./Card";
+import axios from "axios";
+import { ENDPOINTS } from "../assets/EndPoints";
+import Card from "./Card"; // Assuming you have a Card component for individual trek display
 
 const SnowTreks = () => {
-  const [treks, setTreks] = useState(() => [
-    {
-      image: "/landingPage/kilimanjaro.png",
-      title: "Kilimanjaro Trek",
-      imageText: "Kilimanjaro Trek",
-    },
-    {
-      image: "/landingPage/mtkenya.png",
-      title: "Mount Kenya Trek",
-      imageText: "Mount Kenya Trek",
-    },
-    {
-      image: "/landingPage/rwenzori.png",
-      title: "Rwenzori Trek",
-      imageText: "Rwenzori Trek",
-    },
-    {
-      image: "/landingPage/atlas.png",
-      title: "Atlas Trek",
-      imageText: "Atlas Trek",
-    },
-  ]);
+  const [snowTreks, setSnowTreks] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  // useEffect to perform a side effect on component mount
   useEffect(() => {
-    console.log("SnowTreks component mounted");
-    console.log("Available treks:", treks);
-  }, []); // Empty dependency array means this runs once on mount
+    const fetchTreks = async () => {
+      try {
+        const response = await axios.get(ENDPOINTS.SNOWTREK);
+        const treks = response.data;
+
+        // Filter for snow/winter-related treks
+        const filtered = treks.filter(trek =>
+          trek.heading.toLowerCase().includes("snow") ||
+          trek.heading.toLowerCase().includes("winter")
+        );
+
+        setSnowTreks(filtered);
+      } catch (error) {
+        console.error("Failed to fetch treks:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTreks();
+  }, []);
+
+  if (loading) {
+    return <div className="text-center p-10 text-gray-600">Loading Snow Treks...</div>;
+  }
+
+  // Duplicating the snowTreks to create a seamless loop
+  const duplicatedSnowTreks = [...snowTreks, ...snowTreks]; // Duplicating for seamless loop
 
   return (
     <section className="container mx-auto p-4">
@@ -37,15 +43,31 @@ const SnowTreks = () => {
       <p className="text-lg text-gray-700 mb-6">
         Experience the magic of winter landscapes with our guided snow treks.
       </p>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {treks.map((trek, index) => (
-          <Card
-            key={index}
-            image={trek.image}
-            title={trek.title}
-            imageText={trek.imageText}
-          />
-        ))}
+
+      {/* Scroll Wrapper with fade effect on edges */}
+      <div className="scroll-wrapper relative overflow-hidden">
+        {/* Fade effect on left */}
+        <div className="fade-left"></div>
+
+        {/* Scrollable content container */}
+        <div className="scroll-track ">
+          
+          {duplicatedSnowTreks.map((trek) => (
+            <div key={trek.id} className="scroll-item">
+              <Card
+                image={trek.bannerImages1}
+                title={trek.heading}
+                imageText={trek.heading}
+              />
+            </div>
+          ))}
+        </div>
+
+        {/* Fade effect on right */}
+        <div className="fade-right"></div>
+        <div className="fade-top"></div>
+        <div className="fade-bottom"></div>
+
       </div>
     </section>
   );
