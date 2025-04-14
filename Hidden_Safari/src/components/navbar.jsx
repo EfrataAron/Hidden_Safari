@@ -29,9 +29,9 @@ const Navbar = ({ className }) => {
         className
       )}
     >
-      <div className="text-xl font-bold text-green-800">Hidden Safari</div>
+      <div className="text-xl font-bold text-white">Hidden Safari</div>
 
-      <div className="hidden md:flex space-x-6 items-center text-white">
+      <div className="hidden md:flex space-x-6 items-center text-white !hover:text-black">
         <Link to="/home" className="navbar-link flex items-center gap-2">
           <FaHome /> Home
         </Link>
