@@ -1,22 +1,23 @@
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export const ENDPOINTS = {
-  TEAM: "http://54.210.95.246:3005/api/v1/team",
+  TEAM: `${API_BASE_URL}${import.meta.env.VITE_TEAM_ENDPOINT}`,
   
   // INFO
-  ABOUT:"http://54.210.95.246:3005/api/v1/info/about-us",
-  PRIVACY:"http://54.210.95.246:3005/api/v1/info/privacy-policy",
-  TERMS:"http://54.210.95.246:3005/api/v1/info/terms-condition",
-  TESTIMONIALS: "http://54.210.95.246:3005/api/v1/info/testimonials",
+  ABOUT: `${API_BASE_URL}${import.meta.env.VITE_ABOUT_ENDPOINT}`,
+  PRIVACY: `${API_BASE_URL}${import.meta.env.VITE_PRIVACY_ENDPOINT}`,
+  TERMS: `${API_BASE_URL}${import.meta.env.VITE_TERMS_ENDPOINT}`,
+  TESTIMONIALS: `${API_BASE_URL}${import.meta.env.VITE_TESTIMONIALS_ENDPOINT}`,
   
-  CONTACT:"http://54.210.95.246:3005/api/v1/contact",
+  CONTACT: `${API_BASE_URL}${import.meta.env.VITE_CONTACT_ENDPOINT}`,
 
-  //
-  SNOWTREK:"http://54.210.95.246:3005/api/v1/events/snow-treks-events",
-  SUMMER:"http://54.210.95.246:3005/api/v1/events/summer-events",
-  MONSOON:"http://54.210.95.246:3005/api/v1/events/monsoon-events", 
-  ADVENTURES:"http://54.210.95.246:3005/api/v1/events/epic-adventure-events",
-  SPECIALEVENTS:"http://54.210.95.246:3005/api/v1/events/special-events",
-  HIGHLIGHTEDEVENTS:"http://54.210.95.246:3005/api/v1/events/highlighted-events",
-  ALLEVENTS:"http://54.210.95.246:3005/api/v1/events/all-events",
-  EVE:"http://54.210.95.246:3005/api/v1/events/1"
+  // EVENTS
+  SNOWTREK: `${API_BASE_URL}${import.meta.env.VITE_SNOW_TREKS_ENDPOINT}`,
+  SUMMER: `${API_BASE_URL}${import.meta.env.VITE_SUMMER_EVENTS_ENDPOINT}`,
+  MONSOON: `${API_BASE_URL}${import.meta.env.VITE_MONSOON_EVENTS_ENDPOINT}`,
+  ADVENTURES: `${API_BASE_URL}${import.meta.env.VITE_ADVENTURES_ENDPOINT}`,
+  SPECIALEVENTS: `${API_BASE_URL}${import.meta.env.VITE_SPECIAL_EVENTS_ENDPOINT}`,
+  HIGHLIGHTEDEVENTS: `${API_BASE_URL}${import.meta.env.VITE_HIGHLIGHTED_EVENTS_ENDPOINT}`,
+  ALLEVENTS: `${API_BASE_URL}${import.meta.env.VITE_ALL_EVENTS_ENDPOINT}`,
+  EVE: `${API_BASE_URL}${import.meta.env.VITE_EVE_ENDPOINT}`
 };
