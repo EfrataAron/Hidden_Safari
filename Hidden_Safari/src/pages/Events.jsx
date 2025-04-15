@@ -2,16 +2,18 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Navbar from "../components/navbar";
 import GreenBanner from "../components/GreenBanner";
-import { ENDPOINTS } from "../assets/EndPoints"; 
+import { ENDPOINTS } from "../assets/EndPoints";
+import { useNavigate } from 'react-router-dom';
 
 const Events = () => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await axios.get(ENDPOINTS.ALLEVENTS); // ✅ Used here
+        const response = await axios.get(ENDPOINTS.ALLEVENTS);
         const data = response.data;
 
         console.log("Fetched Events:", data);
@@ -34,6 +36,11 @@ const Events = () => {
 
     fetchEvents();
   }, []);
+
+  // Function to handle card click and navigate to event details page
+  const handleCardClick = (eventId) => {
+    navigate(`/detail/${eventId}`);
+  };
 
   return (
     <div className="min-h-screen w-screen flex flex-col">
@@ -61,7 +68,8 @@ const Events = () => {
             {events.map((event) => (
               <div
                 key={event._id || event.id}
-                className="bg-white rounded-lg shadow-md overflow-hidden"
+                className="bg-white rounded-lg shadow-md overflow-hidden cursor-pointer hover:shadow-lg transition-shadow duration-300"
+                onClick={() => handleCardClick(event._id || event.id)}
               >
                 <img
                   src={event.bannerImages1}
@@ -71,7 +79,7 @@ const Events = () => {
                 <div className="p-6">
                   <h2 className="text-xl font-semibold">{event.heading}</h2>
                   <p className="text-gray-600 mt-2">{event.calendarDates}</p>
-                  <p className="text-gray-600 mt-4">{event.about}</p> {/* Removed line-clamp-3 */}
+                  <p className="text-gray-600 mt-4">{event.about}</p>
                 </div>
               </div>
             ))}
