@@ -78,7 +78,10 @@ const Events = () => {
                 />
                 <div className="p-6">
                   <h2 className="text-xl font-semibold">{event.heading}</h2>
-                  <p className="text-gray-600 mt-2">{event.calendarDates}</p>
+                  <div className="flex justify-between items-center mt-2">
+                    <p className="text-gray-600">{event.calendarDates}</p>
+                    <p className="text-green-500 font-semibold">₹7,999</p>
+                  </div>
                   <p className="text-gray-600 mt-4">{event.about}</p>
                 </div>
               </div>
