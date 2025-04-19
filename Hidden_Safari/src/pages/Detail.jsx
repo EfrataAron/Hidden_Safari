@@ -135,17 +135,50 @@ const Detail = () => {
 
           {/* Pricing Card - Right */}
           <div className="w-full md:w-1/3 p-6">
-            <div className="bg-gray-50 p-6 rounded-lg shadow-md">
-              <h2 className="text-xl font-semibold mb-4">Event Pricing</h2>
-              <div className="space-y-4">
-                <div className="flex justify-between">
-                  <span>Base Price</span>
-                  <span className="font-semibold">₹7,999</span>
+            <div className="bg-white p-6 rounded-lg shadow-md">
+              <h2 className="text-2xl font-bold mb-4">₹7,999 / person</h2>
+              <p className="text-gray-600 mb-4">Includes</p>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="flex items-center">
+                  <div className="w-10 h-10 rounded-full bg-pink-100 flex items-center justify-center mr-3">
+                    <FaUtensils className="text-green-500" />
+                  </div>
+                  <span>Food</span>
                 </div>
-                <button className="w-full bg-green-500! text-black py-2 rounded-lg hover:bg-green-600 transition-colors">
-                  Book Now
-                </button>
+                <div className="flex items-center">
+                  <div className="w-10 h-10 rounded-full bg-pink-100 flex items-center justify-center mr-3">
+                    <FaBed className="text-green-500" />
+                  </div>
+                  <span>Accommodation</span>
+                </div>
+                <div className="flex items-center">
+                  <div className="w-10 h-10 rounded-full bg-pink-100 flex items-center justify-center mr-3">
+                    <FaBus className="text-green-500" />
+                  </div>
+                  <span>Travelling</span>
+                </div>
+                <div className="flex items-center">
+                  <div className="w-10 h-10 rounded-full bg-pink-100 flex items-center justify-center mr-3">
+                    <FaMedkit className="text-green-500" />
+                  </div>
+                  <span>First Aid</span>
+                </div>
+                <div className="flex items-center">
+                  <div className="w-10 h-10 rounded-full bg-pink-100 flex items-center justify-center mr-3">
+                    <FaTools className="text-green-500" />
+                  </div>
+                  <span>Accessories</span>
+                </div>
+                <div className="flex items-center">
+                  <div className="w-10 h-10 rounded-full bg-pink-100 flex items-center justify-center mr-3">
+                    <FaChalkboardTeacher className="text-green-500" />
+                  </div>
+                  <span>Instructor</span>
+                </div>
               </div>
+              <button className="w-full bg-green-500! text-white py-3 rounded-lg mt-6 hover:bg-green-600 transition-colors font-semibold">
+                Book Now
+              </button>
             </div>
           </div>
         </div>
@@ -153,7 +186,7 @@ const Detail = () => {
 
       {/* Schedule Section */}
       <div className="max-w-6xl mx-auto p-6 mt-6 bg-white shadow-lg rounded-lg relative">
-        <h3 className="text-xl font-bold text-orange-500 mb-4">Schedule</h3>
+        <h3 className="text-xl font-bold text-green-500 mb-4">Schedule</h3>
 
         {/* Looping through Days */}
         {[1, 2, 3, 4, 5, 6, 7].map((day) => (
