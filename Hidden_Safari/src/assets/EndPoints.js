@@ -19,5 +19,8 @@ export const ENDPOINTS = {
   SPECIALEVENTS: `${API_BASE_URL}${import.meta.env.VITE_SPECIAL_EVENTS_ENDPOINT}`,
   HIGHLIGHTEDEVENTS: `${API_BASE_URL}${import.meta.env.VITE_HIGHLIGHTED_EVENTS_ENDPOINT}`,
   ALLEVENTS: `${API_BASE_URL}${import.meta.env.VITE_ALL_EVENTS_ENDPOINT}`,
-  EVE: `${API_BASE_URL}${import.meta.env.VITE_EVE_ENDPOINT}`
+  EVE: `${API_BASE_URL}${import.meta.env.VITE_EVE_ENDPOINT}`,
+  
+  // Single Event
+  EVENT_DETAIL: (id) => `${API_BASE_URL}${import.meta.env.VITE_EVENT_DETAIL_ENDPOINT}/${id}`
 };

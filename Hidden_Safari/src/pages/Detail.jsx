@@ -19,26 +19,8 @@ const Detail = () => {
   useEffect(() => {
     const fetchEventDetails = async () => {
       try {
-        // Fetch all events
-        const response = await axios.get(ENDPOINTS.ALLEVENTS);
-        const data = response.data;
-
-        // Search for the event in all categories
-        const allEvents = [
-          ...(data.EpicAdventures || []),
-          ...(data.SnowTreks || []),
-          ...(data.Summer || []),
-          ...(data.Monsoon || []),
-          ...(data.SpecialEvents || []),
-        ];
-
-        const foundEvent = allEvents.find(e => e._id === eventId || e.id === eventId);
-        
-        if (foundEvent) {
-          setEvent(foundEvent);
-        } else {
-          setError("Event not found");
-        }
+        const response = await axios.get(ENDPOINTS.EVENT_DETAIL(eventId));
+        setEvent(response.data);
       } catch (err) {
         setError("Error fetching event details");
         console.error("Error fetching event details:", err);

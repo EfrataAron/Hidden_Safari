@@ -46,14 +46,16 @@ const SnowTreks = () => {
 
       {/* Scroll Wrapper with fade effect on edges */}
       <div className="scroll-wrapper relative overflow-hidden">
-
+        
         {/* Fade effect on left */}
         <div className="fade-left"></div>
 
         {/* Scrollable content container */}
-        <div className="scroll-track flex gap-4 overflow-x-auto scrollbar-hide">
-          {duplicatedSnowTreks.map((trek, index) => (
-            <div key={`${trek.id}-${index}`} className="scroll-item flex-shrink-0">
+        <div className="scroll-track ">
+          
+          {duplicatedSnowTreks.map((trek) => (
+            <div key={trek.id} className="scroll-item">
+              
               <Card
                 image={trek.bannerImages1}
                 title={trek.heading}

@@ -7,7 +7,9 @@ const SpecialEvents = () => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
 
+
   const navigate = useNavigate();
+
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -25,6 +27,7 @@ const SpecialEvents = () => {
     fetchEvents();
   }, []);
 
+  // Function to handle card click and navigate to event details page
   const handleCardClick = (eventId) => {
     navigate('/events');
   };
@@ -39,21 +42,19 @@ const SpecialEvents = () => {
         <div className="text-center text-xl">Loading events...</div>
       ) : (
         <div className="overflow-hidden relative">
+          {/* Optional fade effect on edges */}
           <div className="fade-left" />
           <div className="fade-right" />
 
           <div className="scroll-wrapper">
             <div className="scroll-track">
-              {[...events, ...events].map((event, index) => (
-                <div
-                  key={`${event._id}-${index}`}
-                  className="scroll-item flex items-center justify-center"
-                  onClick={() => handleCardClick(event._id)}
-                >
+                {[...events, ...events].map((event, index) => (
+
+                <div key={index} className="scroll-item  flex items-center justify-center " onClick={() => handleCardClick(event._id)}>
                   <Card
                     image={event.bannerImages1}
                     title={event.heading}
-                    description={event.about.substring(0, 100) + "..."}
+                    description={event.about.substring(0, 100) + "..."} 
                     imageText={event.calendarDates}
                     icons={[]}
                   />
