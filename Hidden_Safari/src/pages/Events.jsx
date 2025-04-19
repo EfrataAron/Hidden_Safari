@@ -67,7 +67,7 @@ const Events = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {events.map((event) => (
               <div
-                key={event._id || event.id}
+                key={`event-${event._id || event.id || Math.random().toString(36).substr(2, 9)}`}
                 className="bg-white rounded-lg shadow-md overflow-hidden cursor-pointer hover:shadow-lg transition-shadow duration-300"
                 onClick={() => handleCardClick(event._id || event.id)}
               >

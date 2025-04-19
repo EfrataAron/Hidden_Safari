@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { ENDPOINTS } from "../assets/EndPoints"; // Ensure correct path for ENDPOINTS
-import Card from "./Card"; // Assuming you have a Card component
+import { ENDPOINTS } from "../assets/EndPoints"; // Ensure correct path
+import Card from "./Card"; // Ensure Card component exists and works
 
 const SummerEvents = () => {
   const [events, setEvents] = useState([]);
@@ -11,10 +11,8 @@ const SummerEvents = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        // Fetching data from the SUMMER endpoint
         const response = await axios.get(ENDPOINTS.SUMMER);
-        const fetchedEvents = response.data;
-        setEvents(fetchedEvents);
+        setEvents(response.data);
       } catch (err) {
         setError(err);
       } finally {
@@ -43,26 +41,28 @@ const SummerEvents = () => {
     );
   }
 
-  // Duplicating the events to make the scroll infinite
-  const duplicatedEvents = [...events, ...events]; // Duplicates the events array
+  // Duplicate the events for an infinite scroll illusion
+  const duplicatedEvents = [...events, ...events];
 
   return (
     <section className="container mx-auto p-4">
       <h2 className="text-3xl font-bold text-left mb-8">Summer Events</h2>
       <p className="text-lg text-gray-700 mb-6">
-        Experience the magic of winter landscapes with our guided snow treks.
+        Experience the magic of summer with our exciting outdoor events.
       </p>
-      {/* Scroll Wrapper with fade effect on edges */}
+
       <div className="scroll-wrapper relative overflow-hidden">
-        {/* Fade effect on left */}
+        {/* Optional fade edges for styling */}
         <div className="fade-left"></div>
 
-        {/* Scrollable content container */}
-        <div className="scroll-track">
+        <div className="scroll-track flex gap-4 overflow-x-auto scrollbar-hide">
           {duplicatedEvents.map((event, index) => (
-            <div key={index} className="scroll-item">
+            <div
+              key={`${event._id || event.id || "event"}-${index}`}
+              className="scroll-item flex-shrink-0"
+            >
               <Card
-                image={event.bannerImages1}  // Using bannerImages1 as an example
+                image={event.bannerImages1}
                 imageText={event.heading}
                 title={event.heading}
               />
@@ -70,7 +70,6 @@ const SummerEvents = () => {
           ))}
         </div>
 
-        {/* Fade effect on right */}
         <div className="fade-right"></div>
         <div className="fade-top"></div>
         <div className="fade-bottom"></div>
