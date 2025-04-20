@@ -1,6 +1,6 @@
 // Replace {{base_url}} with the actual base URL
 // In development, use a default URL that can be overridden in .env
-const BASE_URL = "http://54.210.95.246:3005";
+const BASE_URL = "https://sample-project-api.chordifyed.com";
 const API_PATH = "/api/v1";
 
 // This processing allows for {{base_url}} to be replaced during deployment
