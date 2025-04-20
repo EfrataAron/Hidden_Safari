@@ -2,20 +2,27 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Card from "./Card";
 import { FaBus, FaUtensils, FaCampground, FaHiking, FaPlusSquare } from 'react-icons/fa';
+import { useNavigate } from "react-router-dom";
 import { ENDPOINTS } from "../assets/EndPoints";
+import "./styles.css";
 
-const MonsoonEvents = () => {
+const EpicAdventures = () => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
+
+  const handleCardClick = (eventId) => {
+    navigate(`/detail/${eventId}`);
+  };
 
   useEffect(() => {
-    const fetchMonsoonEvents = async () => {
+    const fetchEpicAdventures = async () => {
       try {
-        console.log("Fetching from endpoint:", ENDPOINTS.MONSOON);
-        const response = await axios.get(ENDPOINTS.MONSOON);
+        console.log("Fetching from endpoint:", ENDPOINTS.EPICADVENTURES);
+        const response = await axios.get(ENDPOINTS.EPICADVENTURES);
         
-        console.log("Raw API response:", response.data);
+        console.log("Epic adventures API response:", response.data);
         
         // Check if response.data is an array, if not, check if it has a property that is an array
         let eventsData = response.data;
@@ -23,13 +30,13 @@ const MonsoonEvents = () => {
         if (!Array.isArray(eventsData)) {
           // Try to handle various response formats
           if (response.data && typeof response.data === 'object') {
-            // Option 1: Check for monsoon key
-            if (response.data.Monsoon && Array.isArray(response.data.Monsoon)) {
-              eventsData = response.data.Monsoon;
+            // Option 1: Check for EpicAdventures key
+            if (response.data.EpicAdventures && Array.isArray(response.data.EpicAdventures)) {
+              eventsData = response.data.EpicAdventures;
             } 
-            // Option 2: Check for monsoon-events key
-            else if (response.data['monsoon-events'] && Array.isArray(response.data['monsoon-events'])) {
-              eventsData = response.data['monsoon-events'];
+            // Option 2: Check for epicadventures key
+            else if (response.data.epicadventures && Array.isArray(response.data.epicadventures)) {
+              eventsData = response.data.epicadventures;
             }
             // Option 3: Check for data key
             else if (response.data.data && Array.isArray(response.data.data)) {
@@ -78,15 +85,15 @@ const MonsoonEvents = () => {
             return {
               id: event.id || event._id || `event-${Math.random().toString(36).substr(2, 9)}`,
               image: event.bannerImages1 || event.image || 'https://via.placeholder.com/400',
-              imageText: event.heading || event.title || 'Monsoon Event',
+              imageText: event.heading || event.title || 'Epic Adventure',
               icons: [<FaBus />, <FaUtensils />, <FaCampground />, <FaHiking />, <FaPlusSquare />],
               about: event.about || event.description || '',
               dates: event.calendarDates || event.dates || 'Available soon',
-              days: event.numberOfDays || event.days || '3'
+              days: event.numberOfDays || event.days || '4'
             };
           });
           
-          console.log("Formatted events:", formattedEvents);
+          console.log("Formatted epic adventure events:", formattedEvents);
           setEvents(formattedEvents);
         } else {
           setError("No events found");
@@ -94,13 +101,13 @@ const MonsoonEvents = () => {
         
         setLoading(false);
       } catch (err) {
-        console.error("Error fetching monsoon events:", err);
-        setError(err.message || "Failed to load events");
+        console.error("Error fetching epic adventures:", err);
+        setError(err.message || "Failed to load epic adventure events");
         setLoading(false);
       }
     };
 
-    fetchMonsoonEvents();
+    fetchEpicAdventures();
   }, []);
 
   if (loading) {
@@ -122,7 +129,7 @@ const MonsoonEvents = () => {
   if (error) {
     return (
       <div className="container mx-auto p-4 text-red-500">
-        Error loading monsoon events: {error}
+        Error loading epic adventure events: {error}
       </div>
     );
   }
@@ -130,45 +137,32 @@ const MonsoonEvents = () => {
   if (events.length === 0) {
     return (
       <div className="container mx-auto p-4">
-        <h2 className="text-3xl font-bold text-left mb-2">Monsoon Events</h2>
-        <h3 className="text-lg text-gray-700 mb-6">Experience the magic of monsoon adventures</h3>
-        <p className="text-gray-500">No monsoon events available at the moment.</p>
+        <h2 className="text-3xl font-bold text-left mb-2">Epic Adventures</h2>
+        <h3 className="text-lg text-gray-700 mb-6">Unforgettable journeys to extraordinary destinations</h3>
+        <p className="text-gray-500">No epic adventure events available at the moment.</p>
       </div>
     );
   }
 
-  // Duplicate events for infinite scroll effect
-  const duplicatedEvents = [...events, ...events];
-
   return (
-    <section className="container mx-auto p-4">
-      <h2 className="text-3xl font-bold text-left mb-2">Monsoon Events</h2>
-      <h3 className="text-lg text-gray-700 mb-6">Experience the magic of monsoon adventures</h3>
+    <div className="container mx-auto p-4">
+      <h2 className="text-3xl font-bold text-left mb-2">Epic Adventures</h2>
+      <h3 className="text-lg text-gray-700 mb-6">Unforgettable journeys to extraordinary destinations</h3>
       
-      {/* Scroll Wrapper with fade effect on edges */}
-      <div className="scroll-wrapper relative overflow-hidden">
-        {/* Fade effect on left */}
-        <div className="fade-left"></div>
-
-        {/* Scrollable content container */}
-        <div className="scroll-track">
-          {duplicatedEvents.map((event, index) => (
-            <div key={`${event.id}-${index}`} className="scroll-item">
-              <Card
-                image={event.image}
-                imageText={event.imageText}
-                icons={event.icons}
-                eventId={event.id}
-              />
-            </div>
-          ))}
-        </div>
-
-        {/* Fade effect on right */}
-        <div className="fade-right"></div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {events.map((event) => (
+          <Card
+            key={event.id}
+            image={event.image}
+            imageText={event.imageText}
+            icons={event.icons}
+            eventId={event.id}
+            onClick={() => handleCardClick(event.id)}
+          />
+        ))}
       </div>
-    </section>
+    </div>
   );
 };
 
-export default MonsoonEvents; 
+export default EpicAdventures; 

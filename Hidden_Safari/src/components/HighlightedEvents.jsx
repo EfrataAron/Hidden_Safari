@@ -51,35 +51,107 @@ import axios from "axios";
 import Card from "./Card";
 import { FaBus, FaUtensils, FaCampground, FaHiking, FaPlusSquare } from 'react-icons/fa';
 import { ENDPOINTS } from "../assets/EndPoints";
+import { useNavigate } from "react-router-dom";
+import "./styles.css";
 
 const HighlightedEvents = () => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
+
+  const handleCardClick = (eventId) => {
+    navigate(`/detail/${eventId}`);
+  };
 
   useEffect(() => {
     const fetchHighlightedEvents = async () => {
       try {
+        console.log("Fetching from endpoint:", ENDPOINTS.HIGHLIGHTEDEVENTS);
         const response = await axios.get(ENDPOINTS.HIGHLIGHTEDEVENTS);
         
-        // Transform API data to match your Card component's expected format
-        const formattedEvents = response.data.map(event => ({
-          id: event.id,
-          image: event.bannerImages1, // Using the first banner image
-          imageText: event.heading,
-          icons: [<FaBus />, <FaUtensils />, <FaCampground />, <FaHiking />, <FaPlusSquare />],
-          // Include additional data you might want to use
-          about: event.about,
-          dates: event.calendarDates,
-          days: event.numberOfDays
-        }));
+        console.log("Raw API response:", response.data);
         
-        setEvents(formattedEvents);
+        // Check if response.data is an array, if not, check if it has a property that is an array
+        let eventsData = response.data;
+        
+        if (!Array.isArray(eventsData)) {
+          // Try to handle various response formats
+          if (response.data && typeof response.data === 'object') {
+            // Option 1: Check for highlighted key
+            if (response.data.HighlightedEvents && Array.isArray(response.data.HighlightedEvents)) {
+              eventsData = response.data.HighlightedEvents;
+            } 
+            // Option 2: Check for highlighted-events key
+            else if (response.data['highlighted-events'] && Array.isArray(response.data['highlighted-events'])) {
+              eventsData = response.data['highlighted-events'];
+            }
+            // Option 3: Check for data key
+            else if (response.data.data && Array.isArray(response.data.data)) {
+              eventsData = response.data.data;
+            }
+            // Option 4: Check if the object itself has event-like properties
+            else if (response.data.id || response.data._id || response.data.heading) {
+              // The response might be a single event object
+              eventsData = [response.data];
+            }
+            // Option 5: Use all object values that look like events
+            else {
+              const possibleEvents = Object.values(response.data).filter(
+                item => item && typeof item === 'object' && (item.id || item._id || item.heading)
+              );
+              
+              if (possibleEvents.length > 0) {
+                eventsData = possibleEvents;
+              } else {
+                // If all else fails, try using the only array we find
+                for (const key in response.data) {
+                  if (Array.isArray(response.data[key])) {
+                    eventsData = response.data[key];
+                    break;
+                  }
+                }
+              }
+            }
+          }
+          
+          // If we still don't have an array, create an empty one
+          if (!Array.isArray(eventsData)) {
+            console.error("Could not extract array data from API response");
+            eventsData = [];
+          }
+        }
+        
+        // Log what we're working with
+        console.log("Events data for processing:", eventsData);
+        
+        // If we have data, transform it
+        if (eventsData.length > 0) {
+          // Transform API data to match your Card component's expected format
+          const formattedEvents = eventsData.map(event => {
+            // Ensure we have all required fields, with fallbacks
+            return {
+              id: event.id || event._id || `event-${Math.random().toString(36).substr(2, 9)}`,
+              image: event.bannerImages1 || event.image || 'https://via.placeholder.com/400',
+              imageText: event.heading || event.title || 'Highlighted Event',
+              icons: [<FaBus />, <FaUtensils />, <FaCampground />, <FaHiking />, <FaPlusSquare />],
+              about: event.about || event.description || '',
+              dates: event.calendarDates || event.dates || 'Available soon',
+              days: event.numberOfDays || event.days || '3'
+            };
+          });
+          
+          console.log("Formatted events:", formattedEvents);
+          setEvents(formattedEvents);
+        } else {
+          setError("No events found");
+        }
+        
         setLoading(false);
       } catch (err) {
-        setError(err.message);
-        setLoading(false);
         console.error("Error fetching highlighted events:", err);
+        setError(err.message || "Failed to load events");
+        setLoading(false);
       }
     };
 
@@ -136,7 +208,11 @@ const HighlightedEvents = () => {
         {/* Scrollable content container */}
         <div className="scroll-track">
           {duplicatedEvents.map((event, index) => (
-            <div key={`${event.id}-${index}`} className="scroll-item">
+            <div 
+              key={`${event.id}-${index}`} 
+              className="scroll-item cursor-pointer"
+              onClick={() => handleCardClick(event.id)}
+            >
               <Card
                 image={event.image}
                 imageText={event.imageText}

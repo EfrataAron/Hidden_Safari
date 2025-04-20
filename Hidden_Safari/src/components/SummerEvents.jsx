@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from "react";
+import Card from "./Card";
 import axios from "axios";
-import { ENDPOINTS } from "../assets/EndPoints"; // Ensure correct path
-import { useNavigate } from "react-router-dom"; // <-- import this
-import Card from "./Card"; // Ensure Card component exists and works
+import { useNavigate } from "react-router-dom";
+import { ENDPOINTS } from "../assets/EndPoints";
+import "./styles.css";
+import { FaBus, FaUtensils, FaCampground, FaHiking, FaPlusSquare } from 'react-icons/fa';
 
 const SummerEvents = () => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
-  const navigate = useNavigate(); // <-- initialize navigate
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -61,7 +62,7 @@ const SummerEvents = () => {
             <div
               key={`${event._id || event.id || "event"}-${index}`}
               className="scroll-item flex-shrink-0 cursor-pointer"
-              onClick={() => navigate(`/detail/${event.id || event._id}`)} // <-- go to detail page
+              onClick={() => navigate(`/detail/${event.id || event._id}`)}
             >
               <Card
                 image={event.bannerImages1}

@@ -13,7 +13,28 @@ const Testimonials = () => {
     const fetchTestimonials = async () => {
       try {
         const response = await axios.get(ENDPOINTS.TESTIMONIALS);
-        setTestimonials(response.data);
+        console.log("Testimonials API response:", response.data);
+        
+        // Check if response.data is an array, if not, check if it has a property that is an array
+        let testimonialsData = response.data;
+        
+        if (!Array.isArray(testimonialsData)) {
+          // Check if the data might be nested (common API pattern)
+          if (response.data && response.data.testimonials && Array.isArray(response.data.testimonials)) {
+            testimonialsData = response.data.testimonials;
+          } else if (response.data && response.data.data && Array.isArray(response.data.data)) {
+            testimonialsData = response.data.data;
+          } else if (response.data && typeof response.data === 'object') {
+            // If it's an object but not an array, try to extract values
+            testimonialsData = Object.values(response.data).filter(item => item && typeof item === 'object');
+          } else {
+            // If we can't find any arrays, use an empty array
+            testimonialsData = [];
+            throw new Error("Invalid data format received from API");
+          }
+        }
+        
+        setTestimonials(testimonialsData);
       } catch (err) {
         console.error(err);
         setError("Failed to load testimonials.");
@@ -29,6 +50,7 @@ const Testimonials = () => {
     const nextChunk = currentChunkIndex + 1;
     if (nextChunk * 3 < testimonials.length) {
       setCurrentChunkIndex(nextChunk);
+      setCurrentIndex(0); // Reset the index when changing chunks
     }
   };
 
@@ -36,6 +58,7 @@ const Testimonials = () => {
     const prevChunk = currentChunkIndex - 1;
     if (prevChunk >= 0) {
       setCurrentChunkIndex(prevChunk);
+      setCurrentIndex(0); // Reset the index when changing chunks
     }
   };
 
@@ -46,8 +69,21 @@ const Testimonials = () => {
   // Slice the testimonials to show only the current chunk
   const currentTestimonials = testimonials.slice(currentChunkIndex * 3, (currentChunkIndex + 1) * 3);
 
+  // If we don't have testimonials in the current chunk, return to first chunk
+  if (currentTestimonials.length === 0) {
+    setCurrentChunkIndex(0);
+    return <p className="text-center py-8">Loading testimonials...</p>;
+  }
+
+  // Ensure currentIndex is valid for the current testimonials array
+  if (currentIndex >= currentTestimonials.length) {
+    setCurrentIndex(0);
+    return <p className="text-center py-8">Updating display...</p>;
+  }
+
   // Helper to display stars based on ratings
   const renderStars = (rating) => {
+    if (!rating || isNaN(rating)) return "★★★★★";
     const fullStars = Math.floor(rating);
     const halfStar = rating % 1 >= 0.5;
     const stars = "★".repeat(fullStars) + (halfStar ? "½" : "");
@@ -78,13 +114,13 @@ const Testimonials = () => {
                 onClick={() => setCurrentIndex(index)}
               >
                 <img
-                  src={testimonial.profileImage}
-                  alt={testimonial.name}
+                  src={testimonial.profileImage || "https://via.placeholder.com/50"}
+                  alt={testimonial.name || "Reviewer"}
                   className="w-12 h-12 rounded-full object-cover"
                 />
                 <div className="ml-4">
-                  <h3 className="text-lg font-bold">{testimonial.name}</h3>
-                  <p className="text-sm">{testimonial.role}</p>
+                  <h3 className="text-lg font-bold">{testimonial.name || "Anonymous"}</h3>
+                  <p className="text-sm">{testimonial.role || "Customer"}</p>
                 </div>
               </div>
             ))}
@@ -93,9 +129,9 @@ const Testimonials = () => {
           {/* Review Section */}
           <div className="w-full md:w-2/3 bg-white p-8 rounded-lg shadow-md">
             <div className="text-yellow-500 text-2xl mb-4">
-              {renderStars(currentTestimonials[currentIndex].ratings)} ({currentTestimonials[currentIndex].ratings})
+              {renderStars(currentTestimonials[currentIndex]?.ratings)} ({currentTestimonials[currentIndex]?.ratings || 5})
             </div>
-            <p className="text-gray-700 mb-6">{currentTestimonials[currentIndex].review}</p>
+            <p className="text-gray-700 mb-6">{currentTestimonials[currentIndex]?.review || "Great experience!"}</p>
             <div className="flex justify-between">
               <button
                 onClick={handlePrevious}
