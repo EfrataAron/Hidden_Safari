@@ -1,5 +1,25 @@
-.hero-section {
+/* .hero-section {
   background-image: url("/landingPage/sea.jpg");
   background-size: cover;
   background-position: center;
+} */
+
+.hero-section {
+  position: relative;
+  height: 100vh; /* Adjust as needed */
+  background-size: cover;
+  background-position: center;
+  animation: slideShow 12s infinite;
+}
+
+@keyframes slideShow {
+  0%, 33% {
+    background-image: url("/landingPage/hero/sea.jpg");
+  }
+  34%, 66% {
+    background-image: url("/landingPage/hero/view.jpg");
+  }
+  67%, 100% {
+    background-image: url("/landingPage/hero/tour.jpg");
+  }
 }

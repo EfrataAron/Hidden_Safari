@@ -5,17 +5,18 @@ const ExperienceYourself = () => {
   // Initializing items using useState
   const [items, setItems] = useState(() => [
     {
-      media: { type: "youtube", videoId: "dzA4h-jHryQ" }, // YouTube video ID
+      media: { type: "youtube", videoId: "1Ppoi0uLuDo" }, // YouTube video ID
       title: "Camp 1",
       description: "Exclusive footage from Camp 1.",
+      
     },
     {
-      media: { type: "youtube", videoId: "-IkEMMKSqcw&pp=ygUGdHJhdmVs" }, // YouTube video ID
+      media: { type: "youtube", videoId: "YqMA2eeRLpk" }, // YouTube video ID
       title: "Camp 2",
       description: "Exclusive footage from Camp 2.",
     },
     {
-      media: { type: "video", url: "https://www.example.com/video3.mp4" }, // Local video URL
+      media: { type: "youtube", videoId: "2xW9mTStyhM" }, // Local video URL
       title: "Camp 3",
       description: "Exclusive footage from Camp 3.",
     },

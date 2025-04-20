@@ -1,5 +1,3 @@
-
-
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import HeroSection from "./components/HeroSection";
@@ -9,6 +7,7 @@ import Footer from "./components/Footer";
 import Navbar from "./components/navbar";
 import SnowTreks from "./components/SnowTreks";
 import SummerEvents from "./components/SummerEvents";
+import MonsoonEvents from "./components/MonsoonEvents";
 import EpicAdventure from "./components/EpicAdventure";
 import SpecialEvents from "./components/SpecialEvents";
 import ExperienceYourself from "./components/ExperienceYourself";
@@ -43,6 +42,7 @@ const App = () => {
               <HighlightedEvents />
               <SnowTreks />
               <SummerEvents />
+              <MonsoonEvents />
               <EpicAdventure />
               <SpecialEvents />
               <ExperienceYourself />
@@ -55,7 +55,7 @@ const App = () => {
         <Route path="/about" element={<About />} />
         <Route path="/terms" element={<TermsConditions />} />
         <Route path="/privacypolicy" element={<PrivacyPolicy />} />
-        <Route path="/detail" element={<Detail />} />
+        <Route path="/detail/:eventId" element={<Detail />} />
         
         {/* Contact Routes with Nested Routing */}
         <Route path="/contact" element={<Contact />}/>

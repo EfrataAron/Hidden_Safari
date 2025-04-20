@@ -1,20 +1,22 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { ENDPOINTS } from "../assets/EndPoints"; // Ensure correct path for ENDPOINTS
-import Card from "./Card"; // Assuming you have a Card component
+import { useNavigate } from "react-router-dom";
+import { ENDPOINTS } from "../assets/EndPoints";
+import "./styles.css";
+import { FaBus, FaUtensils, FaCampground, FaHiking, FaPlusSquare } from 'react-icons/fa';
+import EventsCard from "./EventsCard";
 
 const SummerEvents = () => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        // Fetching data from the SUMMER endpoint
         const response = await axios.get(ENDPOINTS.SUMMER);
-        const fetchedEvents = response.data;
-        setEvents(fetchedEvents);
+        setEvents(response.data);
       } catch (err) {
         setError(err);
       } finally {
@@ -43,34 +45,37 @@ const SummerEvents = () => {
     );
   }
 
-  // Duplicating the events to make the scroll infinite
-  const duplicatedEvents = [...events, ...events]; // Duplicates the events array
+  // Create enough duplicated items to ensure smooth infinite scrolling
+  // We need at least enough items to fill the scroll area twice
+  const duplicatedEvents = [...events, ...events, ...events, ...events];
 
   return (
     <section className="container mx-auto p-4">
       <h2 className="text-3xl font-bold text-left mb-8">Summer Events</h2>
       <p className="text-lg text-gray-700 mb-6">
-        Experience the magic of winter landscapes with our guided snow treks.
+        Experience the magic of summer with our exciting outdoor events.
       </p>
-      {/* Scroll Wrapper with fade effect on edges */}
+
       <div className="scroll-wrapper relative overflow-hidden">
-        {/* Fade effect on left */}
         <div className="fade-left"></div>
 
-        {/* Scrollable content container */}
         <div className="scroll-track">
           {duplicatedEvents.map((event, index) => (
-            <div key={index} className="scroll-item">
-              <Card
-                image={event.bannerImages1}  // Using bannerImages1 as an example
-                imageText={event.heading}
-                title={event.heading}
+            <div
+              key={`${event._id || event.id || "event"}-${index}`}
+              className="scroll-item cursor-pointer"
+              onClick={() => navigate(`/detail/${event.id || event._id}`)}
+            >
+              <EventsCard
+                image={event.bannerImages1 || event.image}
+                imageText={event.heading || event.title}
+                icons={[<FaBus />, <FaUtensils />, <FaCampground />, <FaHiking />, <FaPlusSquare />]}
+                eventId={event.id || event._id}
               />
             </div>
           ))}
         </div>
 
-        {/* Fade effect on right */}
         <div className="fade-right"></div>
         <div className="fade-top"></div>
         <div className="fade-bottom"></div>

@@ -1,6 +1,16 @@
+/* .font-script {
+  font-family: "Brush Script MT", cursive;
+  font-size: 35px;
+  color:rgb(239, 245, 238);
+  -webkit-text-stroke: 0.3px rgb(18, 19, 18);
+} */
 
 .container{
+  
 
+  font-family: Garamond, serif!important;
+  font-size: large;
+  
 }
 .mountain-background {
     position: relative;

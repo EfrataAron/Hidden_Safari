@@ -1,60 +1,12 @@
-// // HighlightedEvents.js
-// import React, { useState } from "react";
-// import Card from "./Card";
-// import { FaBus, FaUtensils, FaCampground, FaHiking, FaPlusSquare } from 'react-icons/fa';
-
-// const HighlightedEvents = () => {
-//   const [events, setEvents] = useState(() => [
-//     {
-//       image: "/landingPage/kilimanjaro.png",
-//       // title: "Kilimanjaro",
-//       imageText: "Kilimanjaro",
-//       icons: [<FaBus />, <FaUtensils />, <FaCampground />, <FaHiking />, <FaPlusSquare />],
-//     },
-//     {
-//       image: "/landingPage/madagascar.png",
-//       // title: "Madagascar",
-//       imageText: "Madagascar",
-//       icons: [<FaBus />, <FaUtensils />, <FaCampground />, <FaHiking />, <FaPlusSquare />],
-//     },
-//     {
-//       image: "/landingPage/capetown.png",
-//       // title: "Cape Town",
-//       imageText: "Cape Town",
-//       icons: [<FaBus />, <FaUtensils />, <FaCampground />, <FaHiking />, <FaPlusSquare />],
-//     },
-//   ]);
-
-//   return (
-//     <section className="container mx-auto p-4">
-//       <h2 className="text-3xl font-bold text-left mb-2">Highlighted Events</h2>
-//       <h3 className="text-lg text-gray-700 mb-6">Recommended camps by our Instructors</h3>
-//       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-//         {events.map((event, index) => (
-//           <Card
-//             key={index}
-//             image={event.image}
-//             // title={event.title}
-//             imageText={event.imageText}
-//             icons={event.icons}
-//           />
-//         ))}
-//       </div>
-//     </section>
-//   );
-// };
-
-// export default HighlightedEvents;
-
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { FaBus, FaUtensils, FaCampground, FaHiking, FaPlusSquare } from 'react-icons/fa';
 import { ENDPOINTS } from "../assets/EndPoints";
+import EventsCard from "./EventsCard";
 import { useNavigate } from "react-router-dom";
 import "./styles.css";
-import EventsCard from "./EventsCard";
 
-const HighlightedEvents = () => {
+const MonsoonEvents = () => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -65,10 +17,10 @@ const HighlightedEvents = () => {
   };
 
   useEffect(() => {
-    const fetchHighlightedEvents = async () => {
+    const fetchMonsoonEvents = async () => {
       try {
-        console.log("Fetching from endpoint:", ENDPOINTS.HIGHLIGHTEDEVENTS);
-        const response = await axios.get(ENDPOINTS.HIGHLIGHTEDEVENTS);
+        console.log("Fetching from endpoint:", ENDPOINTS.MONSOON);
+        const response = await axios.get(ENDPOINTS.MONSOON);
         
         console.log("Raw API response:", response.data);
         
@@ -78,13 +30,13 @@ const HighlightedEvents = () => {
         if (!Array.isArray(eventsData)) {
           // Try to handle various response formats
           if (response.data && typeof response.data === 'object') {
-            // Option 1: Check for highlighted key
-            if (response.data.HighlightedEvents && Array.isArray(response.data.HighlightedEvents)) {
-              eventsData = response.data.HighlightedEvents;
+            // Option 1: Check for monsoon key
+            if (response.data.Monsoon && Array.isArray(response.data.Monsoon)) {
+              eventsData = response.data.Monsoon;
             } 
-            // Option 2: Check for highlighted-events key
-            else if (response.data['highlighted-events'] && Array.isArray(response.data['highlighted-events'])) {
-              eventsData = response.data['highlighted-events'];
+            // Option 2: Check for monsoon-events key
+            else if (response.data['monsoon-events'] && Array.isArray(response.data['monsoon-events'])) {
+              eventsData = response.data['monsoon-events'];
             }
             // Option 3: Check for data key
             else if (response.data.data && Array.isArray(response.data.data)) {
@@ -133,7 +85,7 @@ const HighlightedEvents = () => {
             return {
               id: event.id || event._id || `event-${Math.random().toString(36).substr(2, 9)}`,
               image: event.bannerImages1 || event.image || 'https://via.placeholder.com/400',
-              imageText: event.heading || event.title || 'Highlighted Event',
+              imageText: event.heading || event.title || 'Monsoon Event',
               icons: [<FaBus />, <FaUtensils />, <FaCampground />, <FaHiking />, <FaPlusSquare />],
               about: event.about || event.description || '',
               dates: event.calendarDates || event.dates || 'Available soon',
@@ -149,13 +101,13 @@ const HighlightedEvents = () => {
         
         setLoading(false);
       } catch (err) {
-        console.error("Error fetching highlighted events:", err);
+        console.error("Error fetching monsoon events:", err);
         setError(err.message || "Failed to load events");
         setLoading(false);
       }
     };
 
-    fetchHighlightedEvents();
+    fetchMonsoonEvents();
   }, []);
 
   if (loading) {
@@ -177,7 +129,7 @@ const HighlightedEvents = () => {
   if (error) {
     return (
       <div className="container mx-auto p-4 text-red-500">
-        Error loading highlighted events: {error}
+        Error loading monsoon events: {error}
       </div>
     );
   }
@@ -185,21 +137,20 @@ const HighlightedEvents = () => {
   if (events.length === 0) {
     return (
       <div className="container mx-auto p-4">
-        <h2 className="text-3xl font-bold text-left mb-2">Highlighted Events</h2>
-        <h3 className="text-lg text-gray-700 mb-6">Recommended camps by our Instructors</h3>
-        <p className="text-gray-500">No highlighted events available at the moment.</p>
+        <h2 className="text-3xl font-bold text-left mb-2">Monsoon Events</h2>
+        <h3 className="text-lg text-gray-700 mb-6">Experience the magic of monsoon adventures</h3>
+        <p className="text-gray-500">No monsoon events available at the moment.</p>
       </div>
     );
   }
 
   // Create enough duplicated items to ensure smooth infinite scrolling
-  // We need at least enough items to fill the scroll area twice
   const duplicatedEvents = [...events, ...events, ...events, ...events];
 
   return (
     <section className="container mx-auto p-4">
-      <h2 className="text-3xl font-bold text-left mb-2">Highlighted Events</h2>
-      <h3 className="text-lg text-gray-700 mb-6">Recommended camps by our Instructors</h3>
+      <h2 className="text-3xl font-bold text-left mb-2">Monsoon Events</h2>
+      <h3 className="text-lg text-gray-700 mb-6">Experience the magic of monsoon adventures</h3>
       
       {/* Scroll Wrapper with fade effect on edges */}
       <div className="scroll-wrapper relative overflow-hidden">
@@ -233,4 +184,4 @@ const HighlightedEvents = () => {
   );
 };
 
-export default HighlightedEvents;
+export default MonsoonEvents; 
