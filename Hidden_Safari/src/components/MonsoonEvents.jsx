@@ -1,13 +1,20 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Card from "./Card";
 import { FaBus, FaUtensils, FaCampground, FaHiking, FaPlusSquare } from 'react-icons/fa';
 import { ENDPOINTS } from "../assets/EndPoints";
+import EventsCard from "./EventsCard";
+import { useNavigate } from "react-router-dom";
+import "./styles.css";
 
 const MonsoonEvents = () => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
+
+  const handleCardClick = (eventId) => {
+    navigate(`/detail/${eventId}`);
+  };
 
   useEffect(() => {
     const fetchMonsoonEvents = async () => {
@@ -137,8 +144,8 @@ const MonsoonEvents = () => {
     );
   }
 
-  // Duplicate events for infinite scroll effect
-  const duplicatedEvents = [...events, ...events];
+  // Create enough duplicated items to ensure smooth infinite scrolling
+  const duplicatedEvents = [...events, ...events, ...events, ...events];
 
   return (
     <section className="container mx-auto p-4">
@@ -153,8 +160,12 @@ const MonsoonEvents = () => {
         {/* Scrollable content container */}
         <div className="scroll-track">
           {duplicatedEvents.map((event, index) => (
-            <div key={`${event.id}-${index}`} className="scroll-item">
-              <Card
+            <div 
+              key={`${event.id}-${index}`} 
+              className="scroll-item cursor-pointer"
+              onClick={() => handleCardClick(event.id)}
+            >
+              <EventsCard
                 image={event.image}
                 imageText={event.imageText}
                 icons={event.icons}
@@ -166,6 +177,8 @@ const MonsoonEvents = () => {
 
         {/* Fade effect on right */}
         <div className="fade-right"></div>
+        <div className="fade-top"></div>
+        <div className="fade-bottom"></div>
       </div>
     </section>
   );

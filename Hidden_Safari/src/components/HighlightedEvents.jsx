@@ -48,11 +48,11 @@
 
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Card from "./Card";
 import { FaBus, FaUtensils, FaCampground, FaHiking, FaPlusSquare } from 'react-icons/fa';
 import { ENDPOINTS } from "../assets/EndPoints";
 import { useNavigate } from "react-router-dom";
 import "./styles.css";
+import EventsCard from "./EventsCard";
 
 const HighlightedEvents = () => {
   const [events, setEvents] = useState([]);
@@ -214,7 +214,7 @@ const HighlightedEvents = () => {
               className="scroll-item cursor-pointer"
               onClick={() => handleCardClick(event.id)}
             >
-              <Card
+              <EventsCard
                 image={event.image}
                 imageText={event.imageText}
                 icons={event.icons}

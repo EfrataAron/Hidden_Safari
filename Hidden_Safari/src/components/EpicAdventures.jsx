@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Card from "./Card";
 import { FaBus, FaUtensils, FaCampground, FaHiking, FaPlusSquare } from 'react-icons/fa';
 import { useNavigate } from "react-router-dom";
 import { ENDPOINTS } from "../assets/EndPoints";
 import "./styles.css";
+import EventsCard from "./EventsCard";
 
 const EpicAdventures = () => {
   const [events, setEvents] = useState([]);
@@ -144,24 +144,43 @@ const EpicAdventures = () => {
     );
   }
 
+  // Create enough duplicated items to ensure smooth infinite scrolling
+  const duplicatedEvents = [...events, ...events, ...events, ...events];
+
   return (
-    <div className="container mx-auto p-4">
+    <section className="container mx-auto p-4">
       <h2 className="text-3xl font-bold text-left mb-2">Epic Adventures</h2>
       <h3 className="text-lg text-gray-700 mb-6">Unforgettable journeys to extraordinary destinations</h3>
       
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {events.map((event) => (
-          <Card
-            key={event.id}
-            image={event.image}
-            imageText={event.imageText}
-            icons={event.icons}
-            eventId={event.id}
-            onClick={() => handleCardClick(event.id)}
-          />
-        ))}
+      {/* Scroll Wrapper with fade effect on edges */}
+      <div className="scroll-wrapper relative overflow-hidden">
+        {/* Fade effect on left */}
+        <div className="fade-left"></div>
+
+        {/* Scrollable content container */}
+        <div className="scroll-track">
+          {duplicatedEvents.map((event, index) => (
+            <div 
+              key={`${event.id}-${index}`} 
+              className="scroll-item cursor-pointer"
+              onClick={() => handleCardClick(event.id)}
+            >
+              <EventsCard
+                image={event.image}
+                imageText={event.imageText}
+                icons={event.icons}
+                eventId={event.id}
+              />
+            </div>
+          ))}
+        </div>
+
+        {/* Fade effect on right */}
+        <div className="fade-right"></div>
+        <div className="fade-top"></div>
+        <div className="fade-bottom"></div>
       </div>
-    </div>
+    </section>
   );
 };
 

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import Card from "./Card";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { ENDPOINTS } from "../assets/EndPoints";
 import "./styles.css";
 import { FaBus, FaUtensils, FaCampground, FaHiking, FaPlusSquare } from 'react-icons/fa';
+import EventsCard from "./EventsCard";
 
 const SummerEvents = () => {
   const [events, setEvents] = useState([]);
@@ -66,10 +66,11 @@ const SummerEvents = () => {
               className="scroll-item cursor-pointer"
               onClick={() => navigate(`/detail/${event.id || event._id}`)}
             >
-              <Card
-                image={event.bannerImages1}
-                imageText={event.heading}
-                title={event.heading}
+              <EventsCard
+                image={event.bannerImages1 || event.image}
+                imageText={event.heading || event.title}
+                icons={[<FaBus />, <FaUtensils />, <FaCampground />, <FaHiking />, <FaPlusSquare />]}
+                eventId={event.id || event._id}
               />
             </div>
           ))}

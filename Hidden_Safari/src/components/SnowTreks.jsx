@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { ENDPOINTS } from "../assets/EndPoints";
-import SnowTreksCard from "./SnowTreksCard"; 
+import EventsCard from "./EventsCard"; 
 import "./styles.css";
 import { useNavigate } from "react-router-dom";
 import { FaBus, FaUtensils, FaCampground, FaHiking, FaPlusSquare } from 'react-icons/fa';
@@ -85,18 +85,20 @@ const SnowTreks = () => {
 
       {/* Scroll Wrapper with fade effect on edges */}
       <div className="scroll-wrapper relative overflow-hidden">
+        
         {/* Fade effect on left */}
         <div className="fade-left"></div>
 
         {/* Scrollable content container */}
         <div className="scroll-track">
+          
           {duplicatedSnowTreks.map((trek, index) => (
             <div 
               key={`${trek.id || trek._id || index}`} 
               className="scroll-item cursor-pointer"
               onClick={() => handleCardClick(trek.id || trek._id)}
             >
-              <SnowTreksCard
+              <EventsCard
                 image={trek.bannerImages1 || trek.image}
                 imageText={trek.heading || trek.title}
                 icons={[<FaBus />, <FaUtensils />, <FaCampground />, <FaHiking />, <FaPlusSquare />]}
