@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { ENDPOINTS } from "../assets/EndPoints"; // Ensure correct path
+import { useNavigate } from "react-router-dom"; // <-- import this
 import Card from "./Card"; // Ensure Card component exists and works
 
 const SummerEvents = () => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const navigate = useNavigate(); // <-- initialize navigate
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -41,7 +44,6 @@ const SummerEvents = () => {
     );
   }
 
-  // Duplicate the events for an infinite scroll illusion
   const duplicatedEvents = [...events, ...events];
 
   return (
@@ -52,14 +54,14 @@ const SummerEvents = () => {
       </p>
 
       <div className="scroll-wrapper relative overflow-hidden">
-        {/* Optional fade edges for styling */}
         <div className="fade-left"></div>
 
         <div className="scroll-track flex gap-4 overflow-x-auto scrollbar-hide">
           {duplicatedEvents.map((event, index) => (
             <div
               key={`${event._id || event.id || "event"}-${index}`}
-              className="scroll-item flex-shrink-0"
+              className="scroll-item flex-shrink-0 cursor-pointer"
+              onClick={() => navigate(`/detail/${event.id || event._id}`)} // <-- go to detail page
             >
               <Card
                 image={event.bannerImages1}
