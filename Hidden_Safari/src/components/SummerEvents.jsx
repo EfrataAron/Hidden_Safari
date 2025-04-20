@@ -45,7 +45,9 @@ const SummerEvents = () => {
     );
   }
 
-  const duplicatedEvents = [...events, ...events];
+  // Create enough duplicated items to ensure smooth infinite scrolling
+  // We need at least enough items to fill the scroll area twice
+  const duplicatedEvents = [...events, ...events, ...events, ...events];
 
   return (
     <section className="container mx-auto p-4">
@@ -57,11 +59,11 @@ const SummerEvents = () => {
       <div className="scroll-wrapper relative overflow-hidden">
         <div className="fade-left"></div>
 
-        <div className="scroll-track flex gap-4 overflow-x-auto scrollbar-hide">
+        <div className="scroll-track">
           {duplicatedEvents.map((event, index) => (
             <div
               key={`${event._id || event.id || "event"}-${index}`}
-              className="scroll-item flex-shrink-0 cursor-pointer"
+              className="scroll-item cursor-pointer"
               onClick={() => navigate(`/detail/${event.id || event._id}`)}
             >
               <Card

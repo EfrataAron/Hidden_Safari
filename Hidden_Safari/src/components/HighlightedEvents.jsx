@@ -192,8 +192,9 @@ const HighlightedEvents = () => {
     );
   }
 
-  // Duplicate events for infinite scroll effect
-  const duplicatedEvents = [...events, ...events];
+  // Create enough duplicated items to ensure smooth infinite scrolling
+  // We need at least enough items to fill the scroll area twice
+  const duplicatedEvents = [...events, ...events, ...events, ...events];
 
   return (
     <section className="container mx-auto p-4">
@@ -225,6 +226,8 @@ const HighlightedEvents = () => {
 
         {/* Fade effect on right */}
         <div className="fade-right"></div>
+        <div className="fade-top"></div>
+        <div className="fade-bottom"></div>
       </div>
     </section>
   );

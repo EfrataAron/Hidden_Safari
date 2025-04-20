@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { ENDPOINTS } from "../assets/EndPoints";
-import Card from "./Card"; 
+import SnowTreksCard from "./SnowTreksCard"; 
 import "./styles.css";
 import { useNavigate } from "react-router-dom";
+import { FaBus, FaUtensils, FaCampground, FaHiking, FaPlusSquare } from 'react-icons/fa';
 
 const SnowTreks = () => {
   const [snowTreks, setSnowTreks] = useState([]);
@@ -12,7 +13,9 @@ const SnowTreks = () => {
   const navigate = useNavigate();
 
   const handleCardClick = (eventId) => {
-    navigate(`/detail/${eventId}`);
+    if (eventId) {
+      navigate(`/detail/${eventId}`);
+    }
   };
 
   useEffect(() => {
@@ -69,8 +72,9 @@ const SnowTreks = () => {
     );
   }
 
-  // Duplicating the snowTreks to create a seamless loop
-  const duplicatedSnowTreks = [...snowTreks, ...snowTreks]; // Duplicating for seamless loop
+  // Create enough duplicated items to ensure smooth infinite scrolling
+  // We need at least enough items to fill the scroll area twice
+  const duplicatedSnowTreks = [...snowTreks, ...snowTreks, ...snowTreks, ...snowTreks];
 
   return (
     <section className="container mx-auto p-4">
@@ -81,23 +85,21 @@ const SnowTreks = () => {
 
       {/* Scroll Wrapper with fade effect on edges */}
       <div className="scroll-wrapper relative overflow-hidden">
-        
         {/* Fade effect on left */}
         <div className="fade-left"></div>
 
         {/* Scrollable content container */}
         <div className="scroll-track">
-          
           {duplicatedSnowTreks.map((trek, index) => (
             <div 
               key={`${trek.id || trek._id || index}`} 
               className="scroll-item cursor-pointer"
               onClick={() => handleCardClick(trek.id || trek._id)}
             >
-              <Card
+              <SnowTreksCard
                 image={trek.bannerImages1 || trek.image}
                 imageText={trek.heading || trek.title}
-                icons={trek.icons}
+                icons={[<FaBus />, <FaUtensils />, <FaCampground />, <FaHiking />, <FaPlusSquare />]}
                 eventId={trek.id || trek._id}
               />
             </div>
@@ -108,7 +110,6 @@ const SnowTreks = () => {
         <div className="fade-right"></div>
         <div className="fade-top"></div>
         <div className="fade-bottom"></div>
-
       </div>
     </section>
   );
