@@ -210,7 +210,7 @@ const HighlightedEvents = () => {
         <div className="scroll-track">
           {duplicatedEvents.map((event, index) => (
             <div 
-              key={`${event.id}-${index}`} 
+              key={`highlighted-${event.id}-${index}`} 
               className="scroll-item cursor-pointer"
               onClick={() => handleCardClick(event.id)}
             >

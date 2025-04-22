@@ -161,7 +161,7 @@ const MonsoonEvents = () => {
         <div className="scroll-track">
           {duplicatedEvents.map((event, index) => (
             <div 
-              key={`${event.id}-${index}`} 
+              key={`monsoon-${event.id}-${index}`} 
               className="scroll-item cursor-pointer"
               onClick={() => handleCardClick(event.id)}
             >

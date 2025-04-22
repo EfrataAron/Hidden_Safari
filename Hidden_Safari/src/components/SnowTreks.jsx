@@ -94,7 +94,7 @@ const SnowTreks = () => {
           
           {duplicatedSnowTreks.map((trek, index) => (
             <div 
-              key={`${trek.id || trek._id || index}`} 
+              key={`snowtrek-${trek.id || trek._id || index}-${index}`} 
               className="scroll-item cursor-pointer"
               onClick={() => handleCardClick(trek.id || trek._id)}
             >
