@@ -49,11 +49,6 @@
 
 /* Navbar */
 
-.navbar-link {
-  color: white; 
-  text-decoration: none; 
-
-}
 
 .navbar-link:hover {
   color: rgb(178, 34, 56); /* Hover text color */
@@ -64,7 +59,7 @@
 }
 
 .logout-button {
-  color: black;
+  color: black!important;
   background-color: blue-500;
   padding: 8px 12px; 
   border: none;
@@ -150,3 +145,74 @@
 section{
   background-color: rgb(237, 244, 227);
 }
+
+
+/* responsiveness */
+/* Base styles */
+.navbar-link {
+  color: white!important;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.navbar-link:hover {
+  color: rgb(178, 34, 56);
+}
+
+.logout-button {
+  background-color: #3bf664; /* Tailwind blue-500 */
+  color: white;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+/* Optional utility tweaks */
+.container {
+  font-family: Garamond, serif !important;
+  font-size: large;
+  padding-top: 80px; /* Add space below fixed navbar */
+}
+
+/* Ensure responsiveness for scroll container, etc */
+.scroll-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.scroll-track {
+  display: flex;
+  animation: scroll 40s linear infinite;
+}
+
+.scroll-item {
+  flex-shrink: 0;
+  width: 18rem;
+  margin-right: 1rem;
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.scroll-wrapper:hover .scroll-track {
+  animation-play-state: paused;
+}
+
+/* Add this to your HTML if not already */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Garamond, serif;
+  overflow-x: hidden;
+}
+
+/* Add a viewport tag to your HTML head */

@@ -21,7 +21,7 @@ const Footer = () => {
         <div className="flex items-center mb-4">
           <input type="email" placeholder="Enter your Email" className="border p-2 rounded-l-md" />
           <button className="bg-gray-500 text-white px-4 py-2 rounded-r-md">
-            <img src="./icons/search.svg" className="w-6 h-6" alt="search" />
+            <img src="../icons/search.svg" className="w-5 h-5" alt="search" />
           </button>
         </div>
 
